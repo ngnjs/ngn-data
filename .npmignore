@@ -1,0 +1,9 @@
+_*
+*.md
+.*
+*.log
+*.yml
+*.sh
+typescript
+examples
+test

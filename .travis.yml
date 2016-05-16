@@ -1,0 +1,33 @@
+language: node_js
+node_js:
+- 5.10.1
+sudo: false
+notifications:
+  hipchat:
+    rooms:
+      secure: G86agoGJWFpnW+DIwoY0iZjTi4858qgZUnVSFKkz39zfeIFm/lnmcBG3MqLMzvkjFrj+qoofqAUUbycvA8ZE7FbX6+rOfChPpco14LM/cPWrltNuLEYGHA5ikLTrGXOQpy6HFx0MFxhDQc5GFZWoNOVZb8bRogyv1PZwS2AG7tQ=
+    template:
+    - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}"
+    format: html
+before_deploy:
+- export PKG_RELEASE=$(ls ./data.js lib/*.js package.json LICENSE)
+- echo "deploying ${PKG_RELEASE} to GitHub releases"
+deploy:
+  - provider: npm
+    email: sysadmin@coreybutler.com
+    api_key:
+      secure: qo33O/UAzqdA54ZyspsTyAb7isqnun+zv0I4xA8J0DnkFJ4HPS9Jysvp7fFV6EUtJFY/46NSjYui916jl1v00xRD19pNW0SeufUmqpdTGGUFvfdJx4Yy24DT0ePi7L1u2f7ogADdHHnt3QVvNPBf2wgg7v7vsmOz1mTDFIidnlHguXSqEoHju4yxcRW+UGHoQSq8sMOLxZaXLdk6sTU9WBRTgVe/OyyJXNtZ+SQRihBvHfU+f7vg3yV+SaP6PKoMCCr+ki78wG4k3klRnFMZo7PlcFtfPxSCAGela563jpEXzHvZLMatfk+6N6hQJldA2p7+yluVjv1nmGvXQ5Nik509K798JTC6vPS0jEf+VgTwWxaG8AViJCZN8NZZhXCouv6AFHv2BkHzwfuvhvNCsMdgFgPTZ+nfEiQFd5pF5DE+G+e2tdDRIg2bXf+sj1VaehFXeGPSRZN5urWSoqieTZj6v7djTttG5FswFwHp4BIzspeTPtynE3lFFcCleCESonEOnlfkU7UPqoin+kTGZaJjjj6BP34KTNN+SXd08DLAhoG7I5spKAcP+0cFqgO7NwX6OZQB27bw77C/tZMBk5xd886CwcfZC5m9qk25zICarxqm3jM0Y8x/+vv+6D/NBOUqjNPWT9kUzWFoKSgdaojzIJ+4ABWZVdXhmRGoA50=
+    on:
+      tags: true
+      repo: ngnjs/ngn-data
+  - provider: releases
+    api_key:
+      secure: ccNjnvxEPSI9tTRsWOAqo8wJ34FF7g/05X5f3iulTlc7q7PZPdtlhzimaGIWJx7hd+2daC+pnpersFpRcpYGhs71teHS/IgnuPhE2i/0UpDeozn5LJGXKMaQMhKAZQ6wFBdXXIsBUSOtwPD/hZEx4X2JuEDsi4ngDe2fcF8rUA6g10FAuI8q4Pqw3ByH0ieFl4sCBJ1WZJ8wAJd8lcvXoZ5Cne20kq5eXQmjcFSZIuSvrqGm65cfUlCNdqx473Kq/g/MwuiqAD+JV+TkVgmUseJdTDRM5qU/gk+e9JXPp7i8vtDmJUaGppgdhgLpIPMhokMRzM679Wxb39x1XbnkOC5kn/LAgQMa1pYZe5xFVuXXoSlYMxvyqwbR6wruLY+JlaaaJQThilWQaU5s6tfs+svo8L2hxvFcvOInN4DSEz2eegikhkZXGjge4+vf/zTq3QtAOxR1m8chLTRYilcLFqs1y3vwhiGMmOvQWng44PdYQyHe3uhs+WF2IN4b68XUQ3EaiKOTZ77ITlO6DYY1hNOsjnrln7d1RTcC+VOKOac1XVeevqzwrz/lE63K7LHAYwCzuG3fgDooMcAVAnEE1zEB2qUgaQ3jpeoIvv/uHmtREytixuwy2PF1CSxQjsh/tKJrzdBDuyj3+laAypoIQg3temdHhtk0LBbt+ac325Q=
+    file: "${PKG_RELEASE}"
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: ngnjs/ngn-data
+after_success:
+- curl -g -H "Content-Type:\ application/json" -d '{"ngn":"'$TRAVIS_TAG'","trigger":"ngnjs\/docker-ngn-base"}'
+  -X POST "${POSTOP_URL}"

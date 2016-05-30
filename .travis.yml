@@ -28,6 +28,3 @@ deploy:
     on:
       tags: true
       repo: ngnjs/ngn-data
-after_success:
-- curl -g -H "Content-Type:\ application/json" -d '{"ngn":"'$TRAVIS_TAG'","trigger":"ngnjs\/docker-ngn-base"}'
-  -X POST "${POSTOP_URL}"

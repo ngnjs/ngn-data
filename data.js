@@ -1,14 +1,13 @@
 'use strict'
 
-const Record = require('./lib/model')
+const Record = require('./shared/data/model')
 
-let DATA = {}
-Object.defineProperties(DATA, {
-  util: NGN.define(true, false, false, require('./lib/utility')),
-  Entity: NGN.define(false, false, false, Record.Entity),
-  Model: NGN.define(true, false, false, Record.Model),
-  Proxy: NGN.define(true, false, false, require('./lib/proxy')),
-  Store: NGN.define(true, false, false, require('./lib/store'))
+Object.defineProperties(NGN.DATA, {
+//   util: NGN.const(require('./lib/utility')),
+  Entity: NGN.privateconst(Record.Entity),
+//   Model: NGN.const(Record.Model),
+//   Proxy: NGN.const(require('./lib/proxy')),
+//   Store: NGN.const(require('./lib/store'))
 })
 
 NGN.DATA = DATA

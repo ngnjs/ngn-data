@@ -24,9 +24,10 @@
   },
   "homepage": "https://github.com/ngnjs/ngn-data#readme",
   "devDependencies": {
-    "ngn": "0.3.15",
     "babel-eslint": "^4.1.3",
     "buffer-equal-constant-time": "^1.0.1",
+    "gulp": "^3.9.1",
+    "ngn": "0.3.15",
     "ngn-sse": "^0.0.3",
     "snazzy": "^2.0.1",
     "standard": "^5.3.1",

@@ -341,7 +341,7 @@ test('NGN.DATA.Model Nesting', function (t) {
     },
     relationships: {
       sub: {
-        ref: SubM,
+        type: SubM,
         default: {}
       }
     }
@@ -372,7 +372,7 @@ test('NGN.DATA.Store Nesting', function (t) {
     },
     relationships: {
       sub: {
-        ref: _SubM2,
+        type: _SubM2,
         store: true
       }
     }
@@ -384,7 +384,7 @@ test('NGN.DATA.Store Nesting', function (t) {
     },
     relationships: {
       sub: {
-        ref: {
+        type: {
           model: _SubM2,
           allowDuplicates: false
         },
@@ -397,9 +397,7 @@ test('NGN.DATA.Store Nesting', function (t) {
     a: 'test'
   })
 
-  _m2.sub.add({
-    test: 'yo yo'
-  })
+  _m2.sub.test = 'yo yo'
 
   var _m3 = new _M3({
     a: 'test'
@@ -410,8 +408,8 @@ test('NGN.DATA.Store Nesting', function (t) {
   })
 
   t.ok(_m2.hasOwnProperty('sub'), 'Nested model reference exists.')
-  t.ok(_m2.sub.records[0].test === 'yo yo', 'Nested model reference returns proper data fields.')
-  t.ok(_m2.data.sub[0].test === 'yo yo', 'Nested model serialization works')
+  t.ok(_m2.sub.test === 'yo yo', 'Nested model reference returns proper data fields.')
+  t.ok(_m2.data.sub.test === 'yo yo', 'Nested model serialization works')
   t.ok(_m3.sub.records[0].test === 'yo yo ma', 'Nested model reference returns proper data fields with fully defined store configuration.')
   t.ok(_m3.data.sub[0].test === 'yo yo ma', 'Nested model serialization works with fully defined store configuration')
   t.end()

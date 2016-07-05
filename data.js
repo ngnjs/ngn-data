@@ -1,13 +1,16 @@
 'use strict'
 
-const Record = require('./shared/data/model')
+// Create the namespace
+NGN.DATA = {}
 
+// Define the Model and entity
+const Record = require('./shared/data/model')
 Object.defineProperties(NGN.DATA, {
-//   util: NGN.const(require('./lib/utility')),
   Entity: NGN.privateconst(Record.Entity),
-//   Model: NGN.const(Record.Model),
-//   Proxy: NGN.const(require('./lib/proxy')),
-//   Store: NGN.const(require('./lib/store'))
+  Model: NGN.const(Record.Model)
 })
 
-NGN.DATA = DATA
+// Decorate the data namespace with utilities, stores, and the proxy.
+require('./shared/data/utility')
+require('./shared/data/store')
+require('./shared/data/proxy')

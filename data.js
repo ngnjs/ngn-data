@@ -12,5 +12,9 @@ Object.defineProperties(NGN.DATA, {
 
 // Decorate the data namespace with utilities, stores, and the proxy.
 require('./shared/data/utility')
-require('./shared/data/store')
+try {
+  require('./shared/data/store')
+} catch (e) {
+  console.log(e)
+}
 require('./shared/data/proxy')

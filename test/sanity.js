@@ -28,7 +28,7 @@ test('Namespace', function (t) {
   t.ok(typeof NGN.DATA === 'object', 'NGN.DATA exists.')
   t.ok(NGN.DATA.util !== undefined, 'NGN.DATA.util is defined globally.')
   t.ok(NGN.DATA.Model !== undefined, 'NGN.DATA.Model is defined globally.')
-  t.ok(NGN.DATA.Store !== undefined, 'NGN.DATA.Model is defined globally.')
+  t.ok(NGN.DATA.Store !== undefined, 'NGN.DATA.Store is defined globally.')
   t.end()
 })
 
@@ -474,7 +474,7 @@ test('NGN.DATA.Model Expiration by Date/Time', function (t) {
 
 test('NGN.DATA.Model Force Expiration', function (t) {
   var TestModel = new NGN.DATA.Model({
-    expires: 30000, // Expires in 1 second
+    expires: 1000, // Expires in 1 second
     fields: {
       test: {
         default: 'yo'
@@ -489,7 +489,17 @@ test('NGN.DATA.Model Force Expiration', function (t) {
   testRecord.on('expired', function () {
     t.pass('"expired" event recognized when model is forcibly expired.')
     t.ok(testRecord.expired, 'Record is marked as expired.')
-    t.end()
+
+    testRecord.once('expired', function () {
+      t.fail('Expiring a record multiple times works (it shouldn\'t).')
+    })
+
+    setTimeout(function () {
+      t.pass('Calling expire() multiple times does not re-expire record.')
+      t.end()
+    }, 500)
+
+    testRecord.expire()
   })
 
   testRecord.expire()
@@ -573,7 +583,7 @@ test('NGN.DATA.Store Soft Delete & Restore', function (t) {
     t.pass('record.restored event triggered.')
     t.ok(TestStore2.first.test === 'value1', 'Proper record was restored.')
 
-    const checksum = TestStore2.first.checksum
+    var checksum = TestStore2.first.checksum
     TestStore2.once('record.purged', function (purgedRecord) {
       t.ok(purgedRecord.checksum === checksum, 'Proper record purged.')
       t.ok(TestStore2.recordCount === 0, 'Store cleared.')

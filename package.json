@@ -1,6 +1,6 @@
 {
   "name": "ngn-data",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Data modeling, stores, proxies, and utilities for NGN",
   "main": "data.js",
   "scripts": {
@@ -26,6 +26,9 @@
     "node": ">=6.0.0"
   },
   "homepage": "https://github.com/ngnjs/ngn-data#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "devDependencies": {
     "babel-eslint": "^4.1.3",
     "buffer-equal-constant-time": "^1.0.1",

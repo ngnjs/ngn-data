@@ -1,6 +1,6 @@
 {
   "name": "ngn-data",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "Data modeling, stores, proxies, and utilities for NGN",
   "main": "data.js",
   "scripts": {

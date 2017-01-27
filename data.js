@@ -1,7 +1,7 @@
 'use strict'
 
 // Create the namespace
-NGN.DATA = {}
+Object.defineProperty(NGN, 'DATA', NGN.public({}))
 
 // Define the Model and entity
 const Record = require('./shared/data/model')
@@ -14,3 +14,4 @@ Object.defineProperties(NGN.DATA, {
 require('./shared/data/utility')
 require('./shared/data/store')
 require('./shared/data/proxy')
+require('./shared/data/httpproxy')

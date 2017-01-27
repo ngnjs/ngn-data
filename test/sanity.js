@@ -265,7 +265,7 @@ test('NGN.DATA.Store Basic Proxy', function (t) {
   }])
 
   t.ok(Peeps.proxy !== null, 'Store has a proxy associated with it.')
-  t.ok(Peeps.proxy.url === 'http://nodomain.com', 'Proxy attributes are accessible through proxy scope.')
+  t.ok(Peeps.proxy.type === 'store', 'Proxy attributes are accessible through proxy scope.')
   t.ok(typeof Peeps.save === 'function', 'Save method is available.')
   t.ok(typeof Peeps.fetch === 'function', 'Fetch method is available.')
   t.ok(typeof Peeps.changelog === 'object', 'Changelog is available.')
@@ -1062,7 +1062,7 @@ test('Proxying', function (t) {
 
   setTimeout(function () {
     t.ok(record.proxy instanceof NGN.DATA.Proxy, 'Proxy accessible as a model attribute.')
-    t.ok(record.hasOwnProperty('url'), 'Proxy properties applied after model instantiation.')
+    t.ok(record.hasOwnProperty('type'), 'Proxy properties applied after model instantiation.')
 
     let store = new NGN.DATA.Store({
       model: Data
@@ -1072,7 +1072,7 @@ test('Proxying', function (t) {
 
     setTimeout(function () {
       t.ok(store.proxy instanceof NGN.DATA.Proxy, 'Proxy accessible as a model attribute.')
-      t.ok(store.hasOwnProperty('url'), 'Proxy properties applied after model instantiation.')
+      t.ok(store.hasOwnProperty('type'), 'Proxy properties applied after model instantiation.')
       t.end()
     }, 300)
   }, 300)

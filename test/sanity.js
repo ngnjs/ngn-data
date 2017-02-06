@@ -306,7 +306,31 @@ test('NGN.DATA.Model Nesting', function (t) {
   t.ok(m.hasOwnProperty('sub'), 'Nested model reference exists.')
   t.ok(m.sub.test === 'yo', 'Nested model reference returns proper data fields.')
   t.ok(m.data.sub.test === 'yo', 'Nested model serialization works')
-  t.end()
+
+  // Nested field update
+  m.once('field.update', function (delta) {
+    t.ok(delta.field === 'sub.test', 'Proper nested field triggered the update event.')
+
+    // Nested field dynamic creation
+    m.once('field.update', function (delta) {
+      t.ok(delta.field === 'sub.pop', 'Dynamically created nested field.')
+
+      // Nested field dynamic deletion
+      m.once('field.update', function (delta) {
+        t.ok(delta.field === 'sub.pop', 'Dynamically removed a nested model field.')
+        t.end()
+      })
+
+      m.sub.removeField('pop')
+    })
+
+    m.sub.addField('pop', {
+      type: String,
+      default: 'poppy'
+    })
+  })
+
+  m.sub.test = 'newvalue'
 })
 
 test('NGN.DATA.Store Nesting', function (t) {
@@ -365,6 +389,37 @@ test('NGN.DATA.Store Nesting', function (t) {
   t.ok(_m3.sub.records[0].test === 'yo yo ma', 'Nested model reference returns proper data fields with fully defined store configuration.')
   t.ok(_m3.data.sub[0].test === 'yo yo ma', 'Nested model serialization works with fully defined store configuration')
   t.end()
+})
+
+test('NGN.DATA.Model Nested Store', function (t) {
+  var SubModel = new NGN.DATA.Model({
+    fields: {
+      name: null
+    }
+  })
+
+  var MainModel = new NGN.DATA.Model({
+    fields: {
+      a: null
+    },
+
+    relationships: {
+      test: [SubModel]
+    }
+  })
+
+  var m = new MainModel({
+    a: 'firstname'
+  })
+
+  m.once('field.update', function (delta) {
+    t.pass('Nested store record creation triggers a field update.')
+    t.end()
+  })
+
+  m.test.add({
+    name: 'someone'
+  })
 })
 
 test('NGN.DATA.Model Expiration by Milliseconds', function (t) {
@@ -873,6 +928,14 @@ test('NGN.DATA.Store Max & Min Records', function (t) {
 })
 
 test('Representative Data', function (t) {
+  var SubModel = new NGN.DATA.Model({
+    fields: {
+      pop: {
+        type: String,
+        default: 'records'
+      }
+    }
+  })
   let Data = new NGN.DATA.Model({
     fields: {
       a: Number
@@ -881,6 +944,9 @@ test('Representative Data', function (t) {
       b: function () {
         return this.a + 10
       }
+    },
+    relationships: {
+      sub: [SubModel]
     }
   })
 
@@ -888,8 +954,13 @@ test('Representative Data', function (t) {
     a: 1
   })
 
+  d.sub.add({
+    pop: 'records'
+  })
+
   t.ok(d.representation.hasOwnProperty('b'), 'Virtual field recognized in model representation.')
   t.ok(d.representation.b === 11, 'Virtual field value is correct in model representation.')
+  t.ok(d.representation.sub[0].pop === 'records', 'Nested field representations are generated properly.')
 
   let DataSet = new NGN.DATA.Store({
     model: Data

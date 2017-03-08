@@ -55,6 +55,7 @@ test('NGN.DATA.Model', function (t) {
     let obj = p.serialize()
     t.ok(obj.firstname === 'Corey' && obj.hasOwnProperty('lastname'), 'Serialization works.')
     t.ok(p.data.gn === 'Corey', 'Data map works.')
+    t.ok(p.getMappedFieldName('firstname') === 'gn', 'Field mapping returns the appropriate "raw" name.')
 
     NGN.BUS.once('field.invalid', function () {
       t.ok(!p.valid && p.invalidDataAttributes.indexOf('val') >= 0, 'Validators work.')

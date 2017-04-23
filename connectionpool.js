@@ -122,8 +122,8 @@ class ConnectionPool extends NGN.EventEmitter {
   add (key, value, overwrite = false) {
     let triggerEvent = true
 
-    if (this.connectionpool.hasOwnProperty(key)) {
-      if (value === this.connectionpool[key]) {
+    if (this.hasOwnProperty(key)) {
+      if (value === this[key]) {
         return
       } else if (!overwrite) {
         throw new DatabaseConnectionError(`A different connection for ${key} already exists.`)
@@ -142,9 +142,8 @@ class ConnectionPool extends NGN.EventEmitter {
 
     // Apply automatic removal when possible.
     if (typeof value === 'object' && value.hasOwnProperty('on')) {
-      value.on('disconnect', () => {
-        this.remove(key)
-      })
+      value.on('disconnect', () => this.remove(key))
+      value.on('disconnected', () => this.remove(key))
     }
 
     // Notify any event handlers
@@ -164,7 +163,7 @@ class ConnectionPool extends NGN.EventEmitter {
    * The connection ID to remove.
    */
   remove (key) {
-    if (!this.connectionpool.hasOwnProperty(key)) {
+    if (!this.hasOwnProperty(key)) {
       return NGN.BUS.emit('NGN.ADVISORY.WARN', `NGN.DATA.ConnectionPool cannot remove '${key}' because it cannot be found.`)
     }
 
@@ -264,4 +263,4 @@ class ConnectionPool extends NGN.EventEmitter {
   }
 }
 
-NGN.DATA.ConnectionPool = ConnectionPool
+NGN.DATA.ConnectionPool = new ConnectionPool()

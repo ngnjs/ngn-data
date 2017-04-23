@@ -29,6 +29,7 @@ test('Namespace', function (t) {
   t.ok(NGN.DATA.util !== undefined, 'NGN.DATA.util is defined globally.')
   t.ok(NGN.DATA.Model !== undefined, 'NGN.DATA.Model is defined globally.')
   t.ok(NGN.DATA.Store !== undefined, 'NGN.DATA.Store is defined globally.')
+  t.ok(NGN.DATA.ConnectionPool !== undefined, 'NGN.DATA.ConnectionPool is defined globally.')
   t.end()
 })
 

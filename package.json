@@ -1,6 +1,6 @@
 {
   "name": "ngn-data",
-  "version": "0.0.50",
+  "version": "0.1.0",
   "description": "Data modeling, stores, proxies, and utilities for NGN",
   "main": "data.js",
   "scripts": {
@@ -50,7 +50,8 @@
       "NGN",
       "ngn",
       "LoggingMethodError",
-      "DuplicateLoggingMethodError"
+      "DuplicateLoggingMethodError",
+      "DatabaseConnectionError"
     ]
   }
 }

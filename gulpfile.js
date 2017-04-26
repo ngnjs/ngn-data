@@ -61,7 +61,7 @@ gulp.task('generate', function () {
 
   primaryshared.forEach(function (file) {
     if (file.indexOf('.git') < 0) {
-      if (/[^.*\.js]$/gi.test(file)) {
+      if (/[^.*\.js]$/gi.test(file)) { // eslint-disable-line
         primarysharedother.push(file)
       } else {
         primarysharedjs.push(file)
@@ -103,7 +103,7 @@ gulp.task('generate', function () {
 
   files.forEach(function (file) {
     if (file.indexOf('.git') < 0) {
-      if (/[^.*\.js]$/gi.test(file)) {
+      if (/[^.*\.js]$/gi.test(file)) { // eslint-disable-line
         filesother.push(file)
       } else {
         filesjs.push(file)

@@ -1,10 +1,10 @@
 {
   "name": "ngn-data",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Data modeling, stores, proxies, and utilities for NGN",
   "main": "data.js",
   "scripts": {
-    "test": "tape test/**/*.js | tap-spec && snazzy --verbose"
+    "test": "tape test/**/*.js | tap-spec && standard | snazzy --verbose"
   },
   "repository": {
     "type": "git",

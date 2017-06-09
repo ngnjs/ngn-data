@@ -273,11 +273,9 @@ test('NGN.DATA.Model ID Generation', function (t) {
   var _t3 = new T3({
     firstname: '3rdtest'
   })
-  _t3.once('field.update', function (delta) {
-    t.ok(!_t3.modified, 'Reverting to original data does not trigger a modification flag.')
-    t.end()
-  })
   _t3.firstname = _t3.firstname
+  t.ok(!_t3.modified, 'Reverting to original data does not trigger a modification flag.')
+  t.end()
 })
 
 test('NGN.DATA.Model Nesting', function (t) {
